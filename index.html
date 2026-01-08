@@ -195,17 +195,34 @@
         <div id="fb5" class="feedback"></div>
     </div>
 
+    <div class="card">
+    <h2>🎯 Fase 6: Lançamento Horizontal (2D)</h2>
+    <p style="font-size: 0.85rem; color: #b0bec5;">Calcule o alcance horizontal de um objeto lançado de uma altura.</p>
+    
+    <label>Altura da Queda (h) em metros</label>
+    <input id="h6" type="number" value="20">
+    
+    <label>Velocidade Horizontal Constante (Vx) em m/s</label>
+    <input id="vx6" type="number" value="5">
+    
+    <button onclick="fase6()">Calcular Alcance</button>
+    <div id="fb6" class="feedback"></div>
+    </div>
+
     <div class="card" style="text-align: center; border: 2px solid #4fc3f7;">
         <h2>🏆 Avaliação Final</h2>
         <p>Complete as fases acima para liberar sua classificação.</p>
         <button onclick="resultado()" style="background: #fff; color: #000;">Gerar Relatório de Missão</button>
+    
+        <button onclick="reiniciarJogo()" style="background: #37474f; color: #fff; margin-top: 10px; font-size: 0.8rem;">Reiniciar Laboratório</button>
+    
         <div id="final" class="feedback" style="text-align: left;"></div>
     </div>
 </div>
 
 <script>
     let fasesConcluidas = new Set();
-    const totalFases = 5;
+    const totalFases = 6;
 
     function atualizarBarra() {
         let progresso = (fasesConcluidas.size / totalFases) * 100;
@@ -282,6 +299,31 @@
         mostrarFeedback("fb5");
     }
 
+    function fase6() {
+    let h = parseFloat(document.getElementById("h6").value);
+    let vx = parseFloat(document.getElementById("vx6").value);
+    const g = 9.8; // Gravidade padrão
+
+    if (isNaN(h) || isNaN(vx) || h < 0) return;
+
+    // 1. Calcular o tempo de queda: t = sqrt(2h / g)
+    let t = Math.sqrt((2 * h) / g);
+    
+    // 2. Calcular o alcance horizontal: A = vx * t
+    let alcance = vx * t;
+
+    fasesConcluidas.add(6);
+    atualizarBarra();
+    
+    let fb = document.getElementById("fb6");
+    fb.innerHTML = `
+        ✅ <b>Tempo de Queda: ${t.toFixed(2)} s</b><br>
+        ✅ <b>Alcance Horizontal: ${alcance.toFixed(2)} metros</b><br>
+        💡 O tempo de queda depende apenas da altura (Eixo Y), mas é ele quem define quanto tempo o objeto tem para avançar (Eixo X)!
+    `;
+    mostrarFeedback("fb6");
+    }
+
     function resultado() {
         let pontos = fasesConcluidas.size * 20; // 20 pontos por fase
         let nivel, cor;
@@ -307,6 +349,24 @@
         `;
         mostrarFeedback("final");
     }
+    
+    function reiniciarJogo() {
+    if (confirm("Deseja limpar todos os dados e recomeçar a missão?")) {
+        // Limpa o progresso
+        fasesConcluidas.clear();
+        atualizarBarra();
+        
+        // Esconde todos os feedbacks e limpa inputs (opcional)
+        const feedbacks = document.querySelectorAll('.feedback');
+        feedbacks.forEach(f => {
+            f.style.display = "none";
+            f.innerHTML = "";
+        });
+
+        // Rola a página para o topo suavemente
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
 </script>
 
 </body>
