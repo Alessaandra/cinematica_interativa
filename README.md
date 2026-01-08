@@ -73,7 +73,7 @@ Após cada interação, o sistema apresenta um quadro explicativo que:
 ## 🧰 Tecnologias Utilizadas
 
 * **HTML5 / CSS3:** Design responsivo, moderno e otimizado para leitura em smartphones.
-* 
+
 * **JavaScript (Vanilla):** Lógica de cálculo, manipulação de DOM e sistema de pontuação.
 
 ✔️ **Zero dependências:** Não requer bibliotecas externas.
