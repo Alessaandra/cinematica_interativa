@@ -1,253 +1,313 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Desafios do Movimento – Game Educacional</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Desafios do Movimento – Game Educacional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            background-attachment: fixed;
+            color: #fff;
+            line-height: 1.6;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 2px solid #4fc3f7;
+        }
 
-header {
-  text-align: center;
-  padding: 20px;
-  background: #111;
-}
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
 
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-}
+        .progress-container {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            margin-bottom: 30px;
+        }
 
-.card {
-  background: #1e2a38;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
+        .progress {
+            height: 12px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
 
-h2 {
-  color: #4fc3f7;
-}
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #4fc3f7;
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 0 15px #4fc3f7;
+        }
 
-input {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0 10px;
-  border-radius: 6px;
-  border: none;
-}
+        .card {
+            background: rgba(30, 42, 56, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+        }
 
-button {
-  background: #4fc3f7;
-  color: #000;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
+        h2 {
+            color: #4fc3f7;
+            margin-top: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.feedback {
-  margin-top: 10px;
-  background: #263238;
-  padding: 10px;
-  border-radius: 8px;
-}
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #b0bec5;
+        }
 
-.progress {
-  height: 20px;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #37474f;
+            background: #263238;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #4fc3f7;
-  transition: width 0.5s;
-}
-</style>
+        button {
+            background: #4fc3f7;
+            color: #0a192f;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 15px;
+            transition: transform 0.2s, background 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4fc3f7;
+            font-size: 0.95rem;
+            display: none; /* Escondido até ser usado */
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-<h1>🎮 Desafios do Movimento</h1>
-<p>MRU e MRUV – Cinemática em Jogo</p>
+    <h1>🎮 Desafios do Movimento</h1>
+    <p>Laboratório Interativo de Física</p>
 </header>
 
 <div class="container">
+    <div class="progress-container">
+        <div class="progress">
+            <div id="barra" class="progress-bar"></div>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem; margin-top: 5px; color: #4fc3f7;">Progresso da Missão</p>
+    </div>
 
-<div class="progress">
-  <div id="barra" class="progress-bar"></div>
-</div>
+    <div class="card">
+        <h2>🧭 Fase 1: Velocidade Média</h2>
+        <label>Distância percorrida (m)</label>
+        <input id="d1" type="number" placeholder="Ex: 100" step="0.01">
+        <label>Tempo gasto (s)</label>
+        <input id="t1" type="number" placeholder="Ex: 10" step="0.01">
+        <button onclick="fase1()">Validar Dados</button>
+        <div id="fb1" class="feedback"></div>
+    </div>
 
-<!-- NÍVEL 1 -->
-<div class="card">
-<h2>🧭 Fase 1 – MRU: Velocidade Média</h2>
+    <div class="card">
+        <h2>⚖️ Fase 2: Comparação de MRU</h2>
+        <label>Velocidade do Objeto A (m/s)</label>
+        <input id="vA" type="number" placeholder="Ex: 15">
+        <label>Velocidade do Objeto B (m/s)</label>
+        <input id="vB" type="number" placeholder="Ex: 12">
+        <button onclick="fase2()">Analisar Vantagem</button>
+        <div id="fb2" class="feedback"></div>
+    </div>
 
-<label>Distância (m)</label>
-<input id="d1" type="number" step="0.01">
+    <div class="card">
+        <h2>🏭 Fase 3: Logística Industrial</h2>
+        <p style="font-size: 0.85rem; color: #b0bec5;">Calcule o tempo necessário para uma empilhadeira cruzar o galpão.</p>
+        <label>Distância do Corredor (m)</label>
+        <input id="d3" type="number" value="40">
+        <label>Velocidade Constante (m/s)</label>
+        <input id="v3" type="number" value="2">
+        <button onclick="fase3()">Prever Tempo</button>
+        <div id="fb3" class="feedback"></div>
+    </div>
 
-<label>Tempo (s)</label>
-<input id="t1" type="number" step="0.01">
+    <div class="card">
+        <h2>🚀 Fase 4: MRUV (Aceleração)</h2>
+        <label>Velocidade Inicial (v₀) em m/s</label>
+        <input id="v0" type="number" placeholder="Ex: 20">
+        <label>Aceleração (a) em m/s²</label>
+        <input id="a" type="number" placeholder="Ex: -5">
+        <label>Tempo de percurso (t) em s</label>
+        <input id="t4" type="number" placeholder="Ex: 4">
+        <button onclick="fase4()">Calcular Velocidade Final</button>
+        <div id="fb4" class="feedback"></div>
+    </div>
 
-<button onclick="fase1()">Calcular</button>
-<div id="fb1" class="feedback"></div>
-</div>
+    <div class="card">
+        <h2>📐 Fase 5: Vetores (Navegação)</h2>
+        <p style="font-size: 0.85rem; color: #b0bec5;">Calcule a força resultante de um drone sob vento lateral.</p>
+        <label>Força do Motor - Eixo Y (N)</label>
+        <input id="fy" type="number" value="40">
+        <label>Força do Vento - Eixo X (N)</label>
+        <input id="fx" type="number" value="30">
+        <button onclick="fase5()">Calcular Resultante</button>
+        <div id="fb5" class="feedback"></div>
+    </div>
 
-<!-- NÍVEL 2 -->
-<div class="card">
-<h2>⚖️ Fase 2 – MRU: Comparação</h2>
-
-<label>Velocidade A (m/s)</label>
-<input id="vA" type="number" step="0.01">
-
-<label>Velocidade B (m/s)</label>
-<input id="vB" type="number" step="0.01">
-
-<button onclick="fase2()">Comparar</button>
-<div id="fb2" class="feedback"></div>
-</div>
-
-<!-- NÍVEL 3 -->
-<div class="card">
-<h2>🏭 Fase 3 – MRU: Aplicação Profissional</h2>
-
-<label>Distância (m)</label>
-<input id="d3" type="number" value="5">
-
-<label>Velocidade (m/s)</label>
-<input id="v3" type="number" value="0.5">
-
-<button onclick="fase3()">Calcular Tempo</button>
-<div id="fb3" class="feedback"></div>
-</div>
-
-<!-- NÍVEL 4 – MRUV -->
-<div class="card">
-<h2>🚀 Fase 4 – MRUV: Movimento Acelerado</h2>
-
-<label>Velocidade inicial (m/s)</label>
-<input id="v0" type="number" step="0.1">
-
-<label>Aceleração (m/s²)</label>
-<input id="a" type="number" step="0.1">
-
-<label>Tempo (s)</label>
-<input id="t4" type="number" step="0.1">
-
-<button onclick="fase4()">Calcular Velocidade Final</button>
-<div id="fb4" class="feedback"></div>
-</div>
-
-<!-- RESULTADO -->
-<div class="card">
-<h2>🏆 Resultado Final</h2>
-<button onclick="resultado()">Ver Classificação</button>
-<div id="final" class="feedback"></div>
-</div>
-
+    <div class="card" style="text-align: center; border: 2px solid #4fc3f7;">
+        <h2>🏆 Avaliação Final</h2>
+        <p>Complete as fases acima para liberar sua classificação.</p>
+        <button onclick="resultado()" style="background: #fff; color: #000;">Gerar Relatório de Missão</button>
+        <div id="final" class="feedback" style="text-align: left;"></div>
+    </div>
 </div>
 
 <script>
-let pontos = 0;
-let progresso = 0;
+    let fasesConcluidas = new Set();
+    const totalFases = 5;
 
-function atualizarBarra() {
-  document.getElementById("barra").style.width = progresso + "%";
-}
+    function atualizarBarra() {
+        let progresso = (fasesConcluidas.size / totalFases) * 100;
+        document.getElementById("barra").style.width = progresso + "%";
+    }
 
-function fase1() {
-  let d = parseFloat(document.getElementById("d1").value);
-  let t = parseFloat(document.getElementById("t1").value);
-  
-  if (isNaN(d) || isNaN(t) || t <= 0) {
-    alert("Por favor, insira valores válidos e um tempo maior que zero.");
-    return;
-  }
+    function mostrarFeedback(id) {
+        document.getElementById(id).style.display = "block";
+    }
 
-  let v = d / t;
-  pontos += 10;
-  progresso = 25;
-  atualizarBarra();
+    function fase1() {
+        let d = parseFloat(document.getElementById("d1").value);
+        let t = parseFloat(document.getElementById("t1").value);
+        if (t <= 0 || isNaN(d)) { alert("Insira valores válidos!"); return; }
 
-  document.getElementById("fb1").innerHTML = `
-    Velocidade média = <b>${v.toFixed(2)} m/s</b><br>
-    💡 No MRU, a velocidade permanece constante.
-  `;
-}
+        let v = d / t;
+        fasesConcluidas.add(1);
+        atualizarBarra();
+        let fb = document.getElementById("fb1");
+        fb.innerHTML = `✅ <b>Velocidade: ${v.toFixed(2)} m/s</b><br>No MRU, a velocidade não muda com o tempo.`;
+        mostrarFeedback("fb1");
+    }
 
-function fase2() {
-  let a = vA.value;
-  let b = vB.value;
+    function fase2() {
+        let a = parseFloat(document.getElementById("vA").value);
+        let b = parseFloat(document.getElementById("vB").value);
+        if (isNaN(a) || isNaN(b)) return;
 
-  pontos += 15;
-  progresso = 50;
-  atualizarBarra();
+        fasesConcluidas.add(2);
+        atualizarBarra();
+        let vencedor = a > b ? "Objeto A" : "Objeto B";
+        let fb = document.getElementById("fb2");
+        fb.innerHTML = `✅ <b>O ${vencedor} é mais rápido!</b><br>Em uma mesma distância, ele chegaria primeiro.`;
+        mostrarFeedback("fb2");
+    }
 
-  let r = a > b ? "Objeto A" : "Objeto B";
+    function fase3() {
+        let d = parseFloat(document.getElementById("d3").value);
+        let v = parseFloat(document.getElementById("v3").value);
+        if (v <= 0) return;
 
-  fb2.innerHTML = `
-  ${r} é mais rápido.<br>
-  💡 No MRU, velocidades diferentes indicam tempos ou distâncias diferentes.
-  `;
-}
+        let t = d / v;
+        fasesConcluidas.add(3);
+        atualizarBarra();
+        let fb = document.getElementById("fb3");
+        fb.innerHTML = `✅ <b>Tempo Estimado: ${t.toFixed(2)} s</b><br>Cálculos de MRU são vitais para automação logística.`;
+        mostrarFeedback("fb3");
+    }
 
-function fase3() {
-  let d = d3.value;
-  let v = v3.value;
+    function fase4() {
+        let v0 = parseFloat(document.getElementById("v0").value);
+        let a = parseFloat(document.getElementById("a").value);
+        let t = parseFloat(document.getElementById("t4").value);
+        if (isNaN(v0) || isNaN(a) || isNaN(t)) return;
 
-  let t = d / v;
-  pontos += 20;
-  progresso = 75;
-  atualizarBarra();
+        let v = v0 + (a * t);
+        fasesConcluidas.add(4);
+        atualizarBarra();
+        let fb = document.getElementById("fb4");
+        fb.innerHTML = `✅ <b>Velocidade Final: ${v.toFixed(2)} m/s</b><br>Note como a aceleração altera o estado do movimento.`;
+        mostrarFeedback("fb4");
+    }
 
-  fb3.innerHTML = `
-  Tempo = <b>${t.toFixed(1)} s</b><br>
-  💡 Esse cálculo permite prever tempos em sistemas industriais.
-  `;
-}
+    function fase5() {
+        let x = parseFloat(document.getElementById("fx").value);
+        let y = parseFloat(document.getElementById("fy").value);
+        if (isNaN(x) || isNaN(y)) return;
 
-function fase4() {
-  let v0 = parseFloat(document.getElementById("v0").value);
-  let a = parseFloat(document.getElementById("a").value);
-  let t = parseFloat(document.getElementById("t4").value);
+        let r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        fasesConcluidas.add(5);
+        atualizarBarra();
+        let fb = document.getElementById("fb5");
+        fb.innerHTML = `✅ <b>Intensidade Resultante: ${r.toFixed(2)} N</b><br>O drone seguirá na direção da hipotenusa desse triângulo de forças!`;
+        mostrarFeedback("fb5");
+    }
 
-  let v = v0 + a * t;
-  pontos += 25;
-  progresso = 100;
-  atualizarBarra();
+    function resultado() {
+        let pontos = fasesConcluidas.size * 20; // 20 pontos por fase
+        let nivel, cor;
 
-  fb4.innerHTML = `
-  Velocidade final = <b>${v.toFixed(2)} m/s</b><br>
-  💡 No MRUV, a velocidade varia linearmente com o tempo devido à aceleração constante.
-  `;
-}
+        if (pontos >= 100) {
+            nivel = "🔴 Mestre da Cinemática";
+            cor = "#ff1744";
+        } else if (pontos >= 60) {
+            nivel = "🔵 Explorador Cinético";
+            cor = "#2979ff";
+        } else {
+            nivel = "🟢 Aprendiz do Movimento";
+            cor = "#00e676";
+        }
 
-function resultado() {
-  let nivel =
-    pontos < 30 ? "🟢 Aprendiz do Movimento" :
-    pontos < 60 ? "🔵 Explorador Cinético" :
-    "🔴 Mestre da Cinemática";
-
-  final.innerHTML = `
-  Pontuação total: <b>${pontos} PK</b><br>
-  Classificação: <b>${nivel}</b>
-  `;
-}
+        let final = document.getElementById("final");
+        final.innerHTML = `
+            <div style="text-align:center">
+                <span class="badge" style="background:${cor}; color:#fff">${nivel}</span>
+                <p>Você completou ${fasesConcluidas.size} de ${totalFases} desafios.</p>
+                <p style="font-size: 1.2rem">Pontuação: <b>${pontos} PK</b></p>
+            </div>
+        `;
+        mostrarFeedback("final");
+    }
 </script>
 
 </body>
 </html>
-
