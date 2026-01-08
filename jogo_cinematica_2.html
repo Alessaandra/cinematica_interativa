@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Desafios do Movimento – Game Educacional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background: #111;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: #1e2a38;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+h2 {
+  color: #4fc3f7;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  background: #4fc3f7;
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.feedback {
+  margin-top: 10px;
+  background: #263238;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.progress {
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4fc3f7;
+  transition: width 0.5s;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎮 Desafios do Movimento</h1>
+<p>MRU e MRUV – Cinemática em Jogo</p>
+</header>
+
+<div class="container">
+
+<div class="progress">
+  <div id="barra" class="progress-bar"></div>
+</div>
+
+<!-- NÍVEL 1 -->
+<div class="card">
+<h2>🧭 Fase 1 – MRU: Velocidade Média</h2>
+
+<label>Distância (m)</label>
+<input id="d1" type="number" step="0.01">
+
+<label>Tempo (s)</label>
+<input id="t1" type="number" step="0.01">
+
+<button onclick="fase1()">Calcular</button>
+<div id="fb1" class="feedback"></div>
+</div>
+
+<!-- NÍVEL 2 -->
+<div class="card">
+<h2>⚖️ Fase 2 – MRU: Comparação</h2>
+
+<label>Velocidade A (m/s)</label>
+<input id="vA" type="number" step="0.01">
+
+<label>Velocidade B (m/s)</label>
+<input id="vB" type="number" step="0.01">
+
+<button onclick="fase2()">Comparar</button>
+<div id="fb2" class="feedback"></div>
+</div>
+
+<!-- NÍVEL 3 -->
+<div class="card">
+<h2>🏭 Fase 3 – MRU: Aplicação Profissional</h2>
+
+<label>Distância (m)</label>
+<input id="d3" type="number" value="5">
+
+<label>Velocidade (m/s)</label>
+<input id="v3" type="number" value="0.5">
+
+<button onclick="fase3()">Calcular Tempo</button>
+<div id="fb3" class="feedback"></div>
+</div>
+
+<!-- NÍVEL 4 – MRUV -->
+<div class="card">
+<h2>🚀 Fase 4 – MRUV: Movimento Acelerado</h2>
+
+<label>Velocidade inicial (m/s)</label>
+<input id="v0" type="number" step="0.1">
+
+<label>Aceleração (m/s²)</label>
+<input id="a" type="number" step="0.1">
+
+<label>Tempo (s)</label>
+<input id="t4" type="number" step="0.1">
+
+<button onclick="fase4()">Calcular Velocidade Final</button>
+<div id="fb4" class="feedback"></div>
+</div>
+
+<!-- RESULTADO -->
+<div class="card">
+<h2>🏆 Resultado Final</h2>
+<button onclick="resultado()">Ver Classificação</button>
+<div id="final" class="feedback"></div>
+</div>
+
+</div>
+
+<script>
+let pontos = 0;
+let progresso = 0;
+
+function atualizarBarra() {
+  document.getElementById("barra").style.width = progresso + "%";
+}
+
+function fase1() {
+  let d = d1.value;
+  let t = t1.value;
+  if (t <= 0) return;
+
+  let v = d / t;
+  pontos += 10;
+  progresso = 25;
+  atualizarBarra();
+
+  fb1.innerHTML = `
+  Velocidade média = <b>${v.toFixed(2)} m/s</b><br>
+  💡 No MRU, a velocidade permanece constante.
+  `;
+}
+
+function fase2() {
+  let a = vA.value;
+  let b = vB.value;
+
+  pontos += 15;
+  progresso = 50;
+  atualizarBarra();
+
+  let r = a > b ? "Objeto A" : "Objeto B";
+
+  fb2.innerHTML = `
+  ${r} é mais rápido.<br>
+  💡 No MRU, velocidades diferentes indicam tempos ou distâncias diferentes.
+  `;
+}
+
+function fase3() {
+  let d = d3.value;
+  let v = v3.value;
+
+  let t = d / v;
+  pontos += 20;
+  progresso = 75;
+  atualizarBarra();
+
+  fb3.innerHTML = `
+  Tempo = <b>${t.toFixed(1)} s</b><br>
+  💡 Esse cálculo permite prever tempos em sistemas industriais.
+  `;
+}
+
+function fase4() {
+  let v0 = parseFloat(document.getElementById("v0").value);
+  let a = parseFloat(document.getElementById("a").value);
+  let t = parseFloat(document.getElementById("t4").value);
+
+  let v = v0 + a * t;
+  pontos += 25;
+  progresso = 100;
+  atualizarBarra();
+
+  fb4.innerHTML = `
+  Velocidade final = <b>${v.toFixed(2)} m/s</b><br>
+  💡 No MRUV, a velocidade varia linearmente com o tempo devido à aceleração constante.
+  `;
+}
+
+function resultado() {
+  let nivel =
+    pontos < 30 ? "🟢 Aprendiz do Movimento" :
+    pontos < 60 ? "🔵 Explorador Cinético" :
+    "🔴 Mestre da Cinemática";
+
+  final.innerHTML = `
+  Pontuação total: <b>${pontos} PK</b><br>
+  Classificação: <b>${nivel}</b>
+  `;
+}
+</script>
+
+</body>
+</html>
+
