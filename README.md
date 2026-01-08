@@ -107,24 +107,6 @@ desafios-do-movimento/
 
 ---
 
-## 🚀 Como Executar
-
-### Execução local
-
-1. Clone o repositório:
-
-   ```bash
-   git clone https://github.com/seu-usuario/desafios-do-movimento.git
-   ```
-2. Abra o arquivo `index.html` em qualquer navegador moderno.
-
-### Publicação via GitHub Pages
-
-1. Vá em **Settings → Pages**.
-2. Selecione a branch principal.
-3. Acesse o link gerado e utilize-o para criar o QR Code.
-
----
 
 ## 📱 Uso com QR Code
 
