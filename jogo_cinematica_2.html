@@ -169,18 +169,22 @@ function atualizarBarra() {
 }
 
 function fase1() {
-  let d = d1.value;
-  let t = t1.value;
-  if (t <= 0) return;
+  let d = parseFloat(document.getElementById("d1").value);
+  let t = parseFloat(document.getElementById("t1").value);
+  
+  if (isNaN(d) || isNaN(t) || t <= 0) {
+    alert("Por favor, insira valores válidos e um tempo maior que zero.");
+    return;
+  }
 
   let v = d / t;
   pontos += 10;
   progresso = 25;
   atualizarBarra();
 
-  fb1.innerHTML = `
-  Velocidade média = <b>${v.toFixed(2)} m/s</b><br>
-  💡 No MRU, a velocidade permanece constante.
+  document.getElementById("fb1").innerHTML = `
+    Velocidade média = <b>${v.toFixed(2)} m/s</b><br>
+    💡 No MRU, a velocidade permanece constante.
   `;
 }
 
